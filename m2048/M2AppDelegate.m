@@ -7,12 +7,44 @@
 //
 
 #import "M2AppDelegate.h"
+@import MobileCenter;
+@import MobileCenterAnalytics;
+@import MobileCenterCrashes;
+@import MobileCenterPush;
+@import MobileCenterDistribute;
+
+static NSString *const kMSDefaultInstallUrl = @"https://install.asgard-int.trafficmanager.net";
+static NSString *const kMSDefaultApiUrl = @"https://asgard-int.trafficmanager.net/api/v0.1";
+static NSString *const kMSLogUrl = @"https://in-integration.dev.avalanch.es";
+
 
 @implementation M2AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  [MSMobileCenter setLogLevel:MSLogLevelVerbose];
+  
+  [MSDistribute setApiUrl:kMSDefaultApiUrl];
+  [MSDistribute setInstallUrl:kMSDefaultInstallUrl];
+  [MSMobileCenter setLogUrl:kMSLogUrl];
+
+  [MSMobileCenter start:@"53f1b1fa-ea09-49d3-8555-df9a1169e41f" withServices:@[
+                                                                               [MSAnalytics class],
+                                                                               [MSCrashes class],
+                                                                               [MSPush class],
+                                                                               [MSDistribute class]
+                                                                               ]];
   return YES;
+}
+
+- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
+{
+  [MSPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(nonnull NSError *)error
+{
+  [MSPush didFailToRegisterForRemoteNotificationsWithError:error];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -41,5 +73,6 @@
 {
   // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
+
 
 @end

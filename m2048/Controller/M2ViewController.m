@@ -14,6 +14,8 @@
 #import "M2ScoreView.h"
 #import "M2Overlay.h"
 #import "M2GridView.h"
+//#import "MobileCenterAnalytics.h"
+@import MobileCenterAnalytics;
 
 @implementation M2ViewController {
   IBOutlet UIButton *_restartButton;
@@ -124,6 +126,8 @@
   [self hideOverlay];
   [self updateScore:0];
   [_scene startNewGame];
+
+  [MSAnalytics trackEvent:@"restart"];
 }
 
 
