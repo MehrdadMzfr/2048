@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Danqing. All rights reserved.
 //
 
+#import <UserNotifications/UserNotifications.h>
 #import "M2AppDelegate.h"
 @import MobileCenter;
 @import MobileCenterAnalytics;
@@ -45,6 +46,30 @@ static NSString *const kMSLogUrl = @"https://in-integration.dev.avalanch.es";
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(nonnull NSError *)error
 {
   [MSPush didFailToRegisterForRemoteNotificationsWithError:error];
+}
+
+- (void)application:(UIApplication *)application
+didReceiveRemoteNotification:(NSDictionary *)userInfo
+fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+  BOOL result = [MSPush didReceiveRemoteNotification:userInfo];
+  if (result) {
+    completionHandler(UIBackgroundFetchResultNewData);
+  } else {
+    completionHandler(UIBackgroundFetchResultNoData);
+  }
+}
+
+- (void)push:(MSPush *)push didReceivePushNotification:(MSPushNotification *)pushNotification {
+  NSString *message = pushNotification.message;
+  for (NSString *key in pushNotification.customData) {
+    message = [NSString stringWithFormat:@"%@\n%@: %@", message, key, [pushNotification.customData objectForKey:key]];
+  }
+  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:pushNotification.title
+                                                  message:message
+                                                 delegate:self
+                                        cancelButtonTitle:@"OK"
+                                        otherButtonTitles:nil];
+  [alert show];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

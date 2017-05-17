@@ -179,6 +179,8 @@
     // Freeze the current game.
     ((SKView *)self.view).paused = YES;
   }];
+  
+  [MSAnalytics trackEvent:@"endGame"];
 }
 
 

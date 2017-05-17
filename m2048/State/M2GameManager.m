@@ -11,6 +11,7 @@
 #import "M2Tile.h"
 #import "M2Scene.h"
 #import "M2ViewController.h"
+@import MobileCenterAnalytics;
 
 /**
  * Helper function that checks the termination condition of either counting up or down.
@@ -88,6 +89,29 @@ BOOL iterate(NSInteger value, BOOL countUp, NSInteger upper, NSInteger lower) {
 - (void)moveToDirection:(M2Direction)direction
 {
   __block M2Tile *tile = nil;
+  
+  
+  
+  NSString *eventName = @"";
+  switch (direction) {
+    case M2DirectionUp:
+      eventName = @"move up";
+      break;
+    case M2DirectionDown:
+      eventName = @"move down";
+      break;
+    case M2DirectionLeft:
+      eventName = @"move left";
+      break;
+    case M2DirectionRight:
+      eventName = @"move right";
+      break;
+      
+    default:
+      break;
+  }
+  
+  [MSAnalytics trackEvent:eventName];
   
   // Remember that the coordinate system of SpriteKit is the reverse of that of UIKit.
   BOOL reverse = direction == M2DirectionUp || direction == M2DirectionRight;
