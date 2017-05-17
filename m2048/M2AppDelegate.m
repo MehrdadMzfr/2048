@@ -18,11 +18,16 @@ static NSString *const kMSDefaultInstallUrl = @"https://install.asgard-int.traff
 static NSString *const kMSDefaultApiUrl = @"https://asgard-int.trafficmanager.net/api/v0.1";
 static NSString *const kMSLogUrl = @"https://in-integration.dev.avalanch.es";
 
+@interface M2AppDelegate () <MSCrashesDelegate, MSDistributeDelegate, MSPushDelegate>
+
+@end
 
 @implementation M2AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  [MSDistribute setDelegate:self];
+  [MSPush setDelegate:self];
   [MSMobileCenter setLogLevel:MSLogLevelVerbose];
   
   [MSDistribute setApiUrl:kMSDefaultApiUrl];
