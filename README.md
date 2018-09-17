@@ -2,7 +2,7 @@
 
 This is a derivative and the iOS version of the game 2048. In the very unlikely case that you don't know what it is, you can check it out [here](https://github.com/gabrielecirulli/2048).
 
-Made just for fun!
+Made just for fun!!!
 
 <p align="center">
   <img src="http://a4.mzstatic.com/us/r30/Purple4/v4/a4/f8/af/a4f8af1d-3878-0817-859d-de76bae169c7/screen568x568.jpeg" alt="Screenshot"/>
